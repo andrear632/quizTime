@@ -18,3 +18,7 @@ Technologies we plan to use:
 - Web servers in PHP
 - Answer server in NodeJS
 - Admin container in NodeJS
+
+
+
+<img src="schema.png" width="800"> 
