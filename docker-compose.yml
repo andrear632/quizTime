@@ -117,7 +117,7 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
     restart: always
      
   worker_2:
-    build: ./docker/worke
+    build: ./docker/worker
     environment:
       - PORT=3002
       - SERVICE_NAME=node2
