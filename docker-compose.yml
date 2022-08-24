@@ -158,9 +158,10 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
   admin-server:
     build: ./docker/admin-server
     environment:
+      - PORT=3000
       - NODE_ENV=production
     ports:
-      - 12345:3000
+      - 3000:3000
     depends_on:
       - couchdb
       - rabbitmq
