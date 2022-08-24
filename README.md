@@ -7,7 +7,7 @@ Having a lot of participants, the server managing users’ answers should be dis
 
 The admin will have an interface to set the correct answers of the questions. For each round he will trigger messages to notify the start of a question to the web applications and to the server accepting the responses. He will also have to trigger the time out of the question to the workers so they stop accepting data and send info to a superworker.
 The superworker then adds data coming from all the workers and stores everything in a database. Using Elastic search and Kibana we’ll generate statistical graphs to be displayed in the admin interface and in the show for the audience.
-Every worker will also keep count of the points of each player it manages. At the end of the game they will send the partial scoreboards to the superworker so it can merge them and produce a total scoreboard. Every player will receive his rank and the top 10 will be displayed in the show for the audience.
+Every player will receive his rank and the top 10 will be displayed in the show for the audience.
 
 Technologies we plan to use:
 - Docker to containerize each service
