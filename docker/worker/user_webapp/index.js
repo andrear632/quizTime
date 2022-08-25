@@ -1,0 +1,1 @@
+//Quando bisogna far sparire i pulsanti mettere hidden a "buttons" e levarlo a "loading"

@@ -5,19 +5,17 @@ At the start of the game, each user that opens the mobile web app will be assign
 
 Having a lot of participants, the server managing users’ answers should be distributed. We plan to have a set of workers, each one handling only a fraction of the total requests. In this way the system can tolerate data burst. A load balancer will be used to split the requests among all the workers.
 
-The admin will have an interface to set the correct answers of the questions. For each round he will trigger messages to notify the start of a question to the web applications and to the server accepting the responses. He will also have to trigger the time out of the question to the workers so they stop accepting data and send info to a superworker.
-The superworker then adds data coming from all the workers and stores everything in a database. Using Elastic search and Kibana we’ll generate statistical graphs to be displayed in the admin interface and in the show for the audience.
+The admin will have an interface to set the correct answers of the questions. For each round he will trigger messages to notify the start of a question to the web applications and to the server accepting the responses. There will be a time out for the question, so the workers stop accepting data and store the scores of every player in the database.
+Using Elastic search and Kibana we’ll generate statistical graphs and the scoreboard to be displayed in the admin interface and in the show for the audience.
 Every player will receive his rank and the top 10 will be displayed in the show for the audience.
 
 Technologies we plan to use:
 - Docker to containerize each service
 - NoSQL database CouchDB
 - Message Broker RabbitMQ
-- Worker and Superworker in NodeJS
+- Workers in NodeJS
 - Elastic search and Kibana
-- Web servers in PHP
-- Answer server in NodeJS
-- Admin container in NodeJS
+- Admin server in NodeJS
 
 
 

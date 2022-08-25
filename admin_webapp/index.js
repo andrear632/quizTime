@@ -22,7 +22,7 @@ async function send(){
             alert("Select question number")
         }
         else {
-            var data = {"correct":correct, "qn":questionnumber};
+            var data = {'correct':correct, 'qn':questionnumber};
             var url = "http://localhost:3000/start";
             const response = await fetch(url, {
                 method: 'POST',
@@ -31,7 +31,10 @@ async function send(){
                 },
                 body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-            alert(response)
+            response.json().then((data) => {
+                alert(data.msg)
+            })
+            
         }
 
     }
