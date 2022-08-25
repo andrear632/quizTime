@@ -41,6 +41,8 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
       - COUCHDB_PASSWORD=admin
     ports:
       - 5984:5984
+    volumes:
+      - ./couchdb:/opt/couchdb/data
     restart: always
 
   rabbitmq:
