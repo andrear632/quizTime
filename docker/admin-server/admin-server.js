@@ -41,7 +41,7 @@ app.post('/start', (req, res) => {
         }, 500);
     });
 
-    res.send({'msg':'Question starting'});
+    res.send({'msg':'Question started'});
 });
 
 app.listen(PORT, HOST);
