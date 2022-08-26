@@ -35,19 +35,19 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
       - default
     restart: always
 
-  couchdb:
-    image: couchdb
-    container_name: nosql-database
-    environment:
-      - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=admin
-    ports:
-      - 5984:5984
-    volumes:
-      - ./couchdb:/opt/couchdb/data
-    networks:
-      - default
-    restart: always
+#  couchdb:
+#    image: couchdb
+#    container_name: nosql-database
+#    environment:
+#      - COUCHDB_USER=admin
+#      - COUCHDB_PASSWORD=admin
+#    ports:
+#      - 5984:5984
+#    volumes:
+#      - ./couchdb:/opt/couchdb/data
+#    networks:
+#      - default
+#    restart: always
 
   rabbitmq:
     image: rabbitmq:3-management
