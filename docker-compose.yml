@@ -119,6 +119,7 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
     environment:
       - PORT=3001
       - SERVICE_NAME=node1
+      - WPORT=1337
     depends_on:
       - couchdb
       - rabbitmq

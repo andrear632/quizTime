@@ -1,10 +1,15 @@
 const express = require('express');
 
-var amqp = require('amqplib/callback_api');
+const amqp = require('./message_broker_functions.js')
+
+var WebSocketServer = require('websocket').server;
+var http = require('http');
+
 
 // Constants
 const SERVICE_NAME = process.env.SERVICE_NAME;
 const PORT = process.env.PORT;
+const WPORT = process.env.WPORT;
 const HOST = '0.0.0.0';
 
 
@@ -17,50 +22,29 @@ app.use(express.static('user_webapp'));
     
 // });
 
+var server = http.createServer();
+server.listen(WPORT, function() { });
+wsServer = new WebSocketServer({
+    httpServer: server
+});
 
-async function amqplisten() {
-    amqp.connect('amqp://rabbitmq', function(error0, connection) {
-        if (error0) {
-            throw error0;
+// Gestione degli eventi
+wsServer.on('request', function(request) {
+    var connection = request.accept(null, request.origin);
+    connection.on('message', function(message) {
+        // Metodo eseguito alla ricezione di un messaggio
+        if (message.type === 'utf8') {
+            // Se il messaggio è una stringa, possiamo leggerlo come segue:
+            console.log('Il messaggio ricevuto è: ' + message.utf8Data);
         }
-        connection.createChannel(function(error1, channel) {
-            if (error1) {
-                throw error1;
-            }
-            var exchange = 'starts';
-
-            channel.assertExchange(exchange, 'fanout', {
-                durable: false
-            });
-
-            channel.assertQueue('', {
-                exclusive: true
-            }, function(error2, q) {
-                if (error2) {
-                    throw error2;
-                }
-                console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
-                channel.bindQueue(q.queue, exchange, '');
-
-                channel.consume(q.queue, function(msg) {
-                    if (msg.content) {
-                        //qui va la gestione del messaggio che segna l'inizio di una domanda,
-                        //viene ricevuto dall'admin server.
-                        //è in json con la struttura {correct:A, qn:1}, dove correct indica la
-                        //risposta corretta e qn il question number.
-                        //msg.content contiene il json ricevuto.
-                        console.log(" [x] %s", msg.content.toString());
-                    }
-                }, {
-                    noAck: true
-                });
-            });
-        });
     });
-}
+    connection.on('close', function(connection) {
+        // Metodo eseguito alla chiusura della connessione
+    });
+});
 
 
-amqplisten();
+amqp.amqplisten();
 
 
 app.listen(PORT, HOST);
