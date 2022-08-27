@@ -1,9 +1,8 @@
 const express = require('express');
+const enableWs = require('express-ws')
 
 const amqp = require('./message_broker_functions.js')
 
-var WebSocketServer = require('websocket').server;
-var http = require('http');
 
 
 // Constants
@@ -15,33 +14,27 @@ const HOST = '0.0.0.0';
 
 // App
 const app = express();
+enableWs(app)
+
 app.use(express.static('user_webapp'));
+
+
 // app.get('/', (req, res) => {
 //     console.log(`service: ${SERVICE_NAME} is called`);
 //     res.send(`Hello world,Your in ${SERVICE_NAME}\n`);
     
 // });
 
-var server = http.createServer();
-server.listen(WPORT, function() { });
-wsServer = new WebSocketServer({
-    httpServer: server
-});
 
-// Gestione degli eventi
-wsServer.on('request', function(request) {
-    var connection = request.accept(null, request.origin);
-    connection.on('message', function(message) {
-        // Metodo eseguito alla ricezione di un messaggio
-        if (message.type === 'utf8') {
-            // Se il messaggio è una stringa, possiamo leggerlo come segue:
-            console.log('Il messaggio ricevuto è: ' + message.utf8Data);
-        }
-    });
-    connection.on('close', function(connection) {
-        // Metodo eseguito alla chiusura della connessione
-    });
-});
+app.ws('/echo', (ws, req) => {
+    ws.on('message', msg => {
+        ws.send(msg)
+    })
+
+    ws.on('close', () => {
+        console.log('WebSocket was closed')
+    })
+})
 
 
 amqp.amqplisten();
