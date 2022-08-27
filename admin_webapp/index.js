@@ -40,3 +40,23 @@ async function send(){
     }
 
 }
+
+
+
+async function end(){
+
+            var data = {'game':'end'};
+            var url = "http://localhost:3000/end";
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            response.json().then((data) => {
+                alert(data.msg)
+            })
+
+
+}

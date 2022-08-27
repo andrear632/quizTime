@@ -44,5 +44,36 @@ app.post('/start', (req, res) => {
     res.send({'msg':'Question started'});
 });
 
+
+app.post('/end', (req, res) => {
+    console.log('Ending game...');
+
+    amqp.connect(URLRABBIT, function(error0, connection) {
+        if (error0) {
+            throw error0;
+        }
+        connection.createChannel(function(error1, channel) {
+            if (error1) {
+                throw error1;
+            }
+            var exchange = 'ends';
+            var msg = JSON.stringify(req.body);
+    
+            channel.assertExchange(exchange, 'fanout', {
+                durable: false
+            });
+            channel.publish(exchange, '', Buffer.from(msg));
+            console.log("Sent %s", msg);
+        });
+        setTimeout(function() {
+            connection.close();
+            process.exit(0);
+        }, 500);
+    });
+
+    res.send({'msg':'Game ended'});
+});
+
+
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
