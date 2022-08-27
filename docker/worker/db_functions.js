@@ -15,16 +15,17 @@ async function create(id, nick) {
   
 }
 
-async function update(id, time){
+async function update(id, score, time){
     await client.update({
         index: 'game',
         id: id,
         body: {
           script: {
             lang: "painless",
-            source: "ctx._source.score++; ctx._source.time += params['newTime']",
+            source: "ctx._source.score += params['newScore']; ctx._source.time += params['newTime']",
             params: {
-                newTime: time
+                newTime: time,
+                newScore: score
             }
           }
         }
