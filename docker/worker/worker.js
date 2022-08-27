@@ -28,7 +28,14 @@ app.use(express.static('user_webapp'));
 
 app.ws('/ws', (ws, req) => {
     ws.on('message', msg => {
-        ws.send(SERVICE_NAME)
+        if (msg=="ping") {
+            setTimeout(function() {
+                ws.send("pong");
+            }, 20000)
+        }
+        else {
+            ws.send(SERVICE_NAME)
+        }
     })
 
     ws.on('close', () => {
