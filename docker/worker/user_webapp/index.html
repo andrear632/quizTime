@@ -10,7 +10,7 @@
 </head>
 <body style="overflow: hidden;">
     
-    <div class="container h-75 text-center">
+    <div class="container h-75 text-center" id="nickname">
         <div class="container h-50"></div>
         <div class="container col-12 mb-3 h1 fw-bold" style="color: rgba(51,51,255,0.8)">
             Choose a nickname
@@ -26,5 +26,50 @@
             </form>
         </div>
     </div>
+
+
+    <div class="container h-100 g-0" id="buttons">
+        <div class="row h-50 pt-3 w-100 pb-1 mx-0">
+            <button class="container col-5 me-2 rounded h1" style="background: rgb(67, 67, 209);">
+                A
+            </button>
+            <button class="container col-5 ms-2 rounded h1" style="background: rgb(243, 243, 119);">
+                B
+            </button>
+        </div>
+        <div class="row h-50 pt-1 w-100 pb-3 mx-0">
+            <button class="container col-5 me-2 rounded h1" style="background: rgb(90, 159, 90);">
+                C
+            </button>
+            <button class="container col-5 ms-2 rounded h1" style="background: rgb(177, 78, 78);">
+                D
+            </button>
+        </div>
+    </div>
+
+
+    <div id="loading" hidden>
+        <div class="container h-75 mt-5 d-flex align-items-center justify-content-center">
+            <div class="spinner-border" style="width: 5rem; height: 5rem; color:rgba(51,51,255,0.8)"></div>
+        </div>
+    </div>
+
+
+
+    <div class="container h-75 text-center" id="score">
+        <div class="container h-50">
+            <img class="h-100" src="https://cliply.co/wp-content/uploads/2021/09/CLIPLY_372109170_FREE_FIREWORKS_400.gif">
+        </div>
+        <div class="container col-12 mb-3 h1 fw-bold" style="color: rgba(51,51,255,0.8)">
+            Congratulations!
+        </div>
+        <div class="container col-12 mb-3 fs-1" style="color: rgba(51,51,255,0.8)">
+            You scored 126th
+        </div>
+        <div class="container h-50">
+            <img class="h-100" src="https://cliply.co/wp-content/uploads/2021/09/CLIPLY_372109170_FREE_FIREWORKS_400.gif">
+        </div>
+    </div>
+
 
 </body>
