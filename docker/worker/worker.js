@@ -2,7 +2,7 @@ const express = require('express');
 const enableWs = require('express-ws')
 
 const amqp = require('./message_broker_functions.js')
-
+const db = require('./db_functions.js')
 
 
 // Constants
@@ -34,6 +34,7 @@ app.ws('/ws', (ws, req) => {
             }, 20000)
         }
         else {
+            db.create("10", "Andrea")
             ws.send(SERVICE_NAME)
         }
     })
