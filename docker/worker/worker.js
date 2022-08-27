@@ -34,7 +34,7 @@ app.ws('/ws', (ws, req) => {
             }, 20000)
         }
         else {
-            db.create("10", "Andrea")
+            db.update("10", 9.7)
             ws.send(SERVICE_NAME)
         }
     })
