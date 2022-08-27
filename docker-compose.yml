@@ -127,7 +127,7 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
       - admin-server
     networks:
       - default
-    command:  "./wait-for-it.sh -t 60 couchdb:5984 -- bash -c  './initialize.sh && node worker.js'"
+    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node worker.js'"
     restart: always
      
   worker_2:
@@ -142,7 +142,7 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
       - admin-server
     networks:
       - default
-    command:  "./wait-for-it.sh -t 60 couchdb:5984 -- bash -c  './initialize.sh && node worker.js'"
+    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node worker.js'"
     restart: always
   
   worker_3:
@@ -157,7 +157,7 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
       - admin-server
     networks:
       - default
-    command:  "./wait-for-it.sh -t 60 couchdb:5984 -- bash -c  './initialize.sh && node worker.js'"
+    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node worker.js'"
     restart: always
 
 #  superworker:
@@ -166,7 +166,7 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
 #      - couchdb
 #      - rabbitmq
 #      - admin-server
-#    command:  "./wait-for-it.sh -t 60 couchdb:5984 -- bash -c  './initialize.sh && node superworker.js'"
+#    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node superworker.js'"
 #    restart: always
 
 ##############################################################################
@@ -187,7 +187,7 @@ services:  #ricontrolla tutti le dipendenze dei container e cerca di aggiustarli
       - kibana
     networks:
       - default
-    command:  "./wait-for-it.sh -t 60 couchdb:5984 -- bash -c  './initialize.sh && node admin-server.js'"
+    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node admin-server.js'"
     restart: always
 
 volumes:
