@@ -34,7 +34,7 @@ app.ws('/ws', (ws, req) => {
             }, 20000)
         }
         else {
-            db.create("10", "Andrea")
+            db.update("10", 9.7)
             ws.send(SERVICE_NAME)
         }
     })
@@ -53,10 +53,10 @@ console.log(`Running on http://${HOST}:${PORT}`);
 
 
 
-// const { Client } = require('@elastic/elasticsearch')
-// const client = new Client({ node: 'http://elasticsearch:9200' })
+const { Client } = require('@elastic/elasticsearch')
+const client = new Client({ node: 'http://elasticsearch:9200' })
 
-// async function run () {
+async function run () {
 //   await client.index({
 //     index: 'game-of-thrones',
 //     id: '1',
@@ -66,12 +66,12 @@ console.log(`Running on http://${HOST}:${PORT}`);
 //     }
 //   })
 
-//   const { body } = await client.get({
-//     index: 'game-of-thrones',
-//     id: '1'
-//   })
+  const { body } = await client.get({
+    index: 'game',
+    id: '10'
+  })
 
-//   console.log(body)
-// }
+  console.log(body)
+}
 
-// run().catch(console.log)
+run().catch(console.log)

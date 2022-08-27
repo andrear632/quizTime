@@ -13,7 +13,6 @@ async function create(id, nick) {
       }
     })
   
-    console.log(body)
 }
 
 async function update(id, time){
