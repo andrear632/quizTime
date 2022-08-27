@@ -28,7 +28,7 @@ app.use(express.static('user_webapp'));
 
 app.ws('/echo', (ws, req) => {
     ws.on('message', msg => {
-        ws.send(msg)
+        ws.send(SERVICE_NAME)
     })
 
     ws.on('close', () => {
