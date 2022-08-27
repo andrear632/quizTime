@@ -16,9 +16,9 @@
             Choose a nickname
         </div>
         <div class="container col-12">
-            <form>
+            <form onsubmit="event.preventDefault(); openws();">
                 <div class="container col-12 mb-3">
-                    <input type="text" class="rounded" style="height:6vh!important;">
+                    <input type="text" id="nick" class="rounded" style="height:6vh!important;">
                 </div>
                 <div class="container col-12">
                     <input type="submit" class="btn fs-5" style="background: rgba(51,51,255,0.8); color: white;">
@@ -30,18 +30,18 @@
 
     <div class="container h-100 g-0" id="buttons">
         <div class="row h-50 pt-3 w-100 pb-1 mx-0">
-            <button class="container col-5 me-2 rounded h1" style="background: rgb(67, 67, 209);">
+            <button onclick="send('A')" class="container col-5 me-2 rounded h1" style="background: rgb(67, 67, 209);">
                 A
             </button>
-            <button class="container col-5 ms-2 rounded h1" style="background: rgb(243, 243, 119);">
+            <button onclick="send('B')" class="container col-5 ms-2 rounded h1" style="background: rgb(243, 243, 119);">
                 B
             </button>
         </div>
         <div class="row h-50 pt-1 w-100 pb-3 mx-0">
-            <button class="container col-5 me-2 rounded h1" style="background: rgb(90, 159, 90);">
+            <button onclick="send('C')" class="container col-5 me-2 rounded h1" style="background: rgb(90, 159, 90);">
                 C
             </button>
-            <button class="container col-5 ms-2 rounded h1" style="background: rgb(177, 78, 78);">
+            <button onclick="send('D')" class="container col-5 ms-2 rounded h1" style="background: rgb(177, 78, 78);">
                 D
             </button>
         </div>
@@ -58,16 +58,16 @@
 
     <div class="container h-75 text-center" id="score">
         <div class="container h-50">
-            <img class="h-100" src="https://cliply.co/wp-content/uploads/2021/09/CLIPLY_372109170_FREE_FIREWORKS_400.gif">
+            <img class="h-100" src="./fireworks.gif">
         </div>
         <div class="container col-12 mb-3 h1 fw-bold" style="color: rgba(51,51,255,0.8)">
             Congratulations!
         </div>
         <div class="container col-12 mb-3 fs-1" style="color: rgba(51,51,255,0.8)">
-            You scored 126th
+            You scored <span id="rank">126</span>
         </div>
         <div class="container h-50">
-            <img class="h-100" src="https://cliply.co/wp-content/uploads/2021/09/CLIPLY_372109170_FREE_FIREWORKS_400.gif">
+            <img class="h-100" src="./fireworks.gif">
         </div>
     </div>
 

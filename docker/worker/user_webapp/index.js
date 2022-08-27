@@ -1,32 +1,85 @@
-let socket = new WebSocket("ws://localhost:8081/ws");
+var socket;
+var nickname;
+var id;
+var qn;
 
-socket.onopen = function(e) {
-    alert("[open] Connessione stabilita");
-    socket.send("Il mio nome è John");
-    socket.send("ping");
-};
+function openws(){
+    socket = new WebSocket("ws://localhost:8081/ws");
 
-socket.onmessage = function(event) {
-    if (event.data == "pong") {
-        setTimeout(function() {
-            socket.send("ping");
-        }, 20000)
-    }
-    else {
-        alert(`[message] Ricezione dati dal server: ${event.data}`);
-    }
-};
+    socket.onopen = function(e) {
+        nickname = document.getElementById("nick").value;
+        socket.send("nickname: " + nickname);
+        socket.send("ping");
+        document.getElementById("score").hidden = true;
+        document.getElementById("nickname").hidden = true;
+        document.getElementById("buttons").hidden = true;
+        document.getElementById("loading").hidden = false;
+    };
+    
+    socket.onmessage = function(event) {
+        msg = event.data;
+        if (msg == "pong") {
+            setTimeout(function() {
+                socket.send("ping");
+            }, 20000)
+        }
+        else if (msg.startsWith("id: ")) {
+            id = msg.substring(4, 10);
+        }
+        else if (msg.startsWith("qn: ")) {
+            qn = msg.substring(4);
+            document.getElementById("loading").hidden = true;
+            document.getElementById("score").hidden = true;
+            document.getElementById("nickname").hidden = true;
+            document.getElementById("buttons").hidden = false;
+            setTimeout(function() {
+                document.getElementById("score").hidden = true;
+                document.getElementById("nickname").hidden = true;
+                document.getElementById("buttons").hidden = true;
+                document.getElementById("loading").hidden = false;
+            }, 10000)
+        }
+        else if (msg.startsWith("end: ")) {
+            document.getElementById('rank').textContent = msg.substring(5);
+            document.getElementById("nickname").hidden = true;
+            document.getElementById("buttons").hidden = true;
+            document.getElementById("loading").hidden = true;
+            document.getElementById("score").hidden = false;
+        }
+        else {
+            alert("Unknown message received");
+        }
+    };
+    
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            document.getElementById("buttons").hidden = true;
+            document.getElementById("loading").hidden = true;
+            document.getElementById("score").hidden = true;
+            document.getElementById("nickname").hidden = false;
+            alert('Thanks for playing with us!')
+        } else {
+            document.getElementById("buttons").hidden = true;
+            document.getElementById("loading").hidden = true;
+            document.getElementById("score").hidden = true;
+            document.getElementById("nickname").hidden = false;
+            alert('Unexpected error');
+        }
+    };
+    
+    socket.onerror = function(error) {
+        document.getElementById("buttons").hidden = true;
+        document.getElementById("loading").hidden = true;
+        document.getElementById("score").hidden = true;
+        document.getElementById("nickname").hidden = false;
+        alert('Unexpected error');
+    };
+}
 
-socket.onclose = function(event) {
-    if (event.wasClean) {
-        alert(`[close] Connessione chiusa con successo, code=${event.code} reason=${event.reason}`);
-    } else {
-        // e.g. processo del server terminato o connessione già
-        // in questo caso event.code solitamente è 1006
-        alert('[close] Connection morta.');
-    }
-};
-
-socket.onerror = function(error) {
-    alert('Connection closed');
-};
+function send(letter){
+    socket.send("qn: "+qn+", ans: "+letter);
+    document.getElementById("score").hidden = true;
+    document.getElementById("nickname").hidden = true;
+    document.getElementById("buttons").hidden = true;
+    document.getElementById("loading").hidden = false;
+}
