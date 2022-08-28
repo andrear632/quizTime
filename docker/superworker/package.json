@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "amqplib": "^0.7.1",
-    "express": "^4.16.1"
-  }
-}
