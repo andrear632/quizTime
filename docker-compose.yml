@@ -114,7 +114,8 @@ services:
 ##############################################################################
 
   worker_1:
-    build: ./docker/worker 
+    build: ./docker/worker
+    container_name: worker_1
     environment:
       - PORT=3001
       - SERVICE_NAME=node1
@@ -130,6 +131,7 @@ services:
      
   worker_2:
     build: ./docker/worker
+    container_name: worker_2
     environment:
       - PORT=3002
       - SERVICE_NAME=node2
@@ -143,7 +145,8 @@ services:
     restart: always
   
   worker_3:
-    build: ./docker/worker 
+    build: ./docker/worker
+    container_name: worker_3
     environment:
       - PORT=3003
       - SERVICE_NAME=node3
@@ -162,6 +165,7 @@ services:
 
   admin-server:
     build: ./docker/admin-server
+    container_name: admin-server
     environment:
       - PORT=3000
       - NODE_ENV=production
