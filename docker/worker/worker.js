@@ -11,8 +11,9 @@ const PORT = process.env.PORT;
 const WPORT = process.env.WPORT;
 const HOST = '0.0.0.0';
 
-const baseId = parseInt(SERVICE_NAME.charAt(SERVICE_NAME.lenght -1))*100000;
+const baseId = parseInt(SERVICE_NAME.charAt(SERVICE_NAME.length - 1))*100000;
 var lastId = baseId;
+
 // App
 const app = express();
 enableWs(app)
@@ -28,16 +29,30 @@ app.use(express.static('user_webapp'));
 
 
 app.ws('/ws', (ws, req) => {
+
+    ws.on('connection', msq =>{
+        console.log("Connection Initialized");
+        console.log(msg)
+    })
+
     ws.on('message', msg => {
         if (msg=="ping") {
             setTimeout(function() {
                 ws.send("pong");
             }, 20000)
         }
-        else if (msg.startsWith("nickname: ")){
+        else if (msg.startsWith("nickname: ")){  //nickname set
             lastId++;
             db.create(lastId, msg.substring(10, msg.lenght));
             ws.send("id: " + lastId.toString())
+        }
+        else if(msg.startsWith("qn: ")){
+
+            received = msg.split(",")
+            id = received[2].substring(4, 10)
+            //dobbiamo decidere come calcolare il punteggio e tenere conto del tempo
+            //in piu come gestiamo la domanda corretta
+            db.update(id, score, time)
         }
         else if(false){
             //qui facciamo handling del crash

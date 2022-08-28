@@ -27,6 +27,7 @@ function openws(){
         else if (msg.startsWith("id: ")) {
             id = msg.substring(4, 10);
             localStorage["id"] = id;
+    
         }
         else if (msg.startsWith("qn: ")) {
             qn = msg.substring(4);
@@ -79,7 +80,7 @@ function openws(){
 }
 
 function send(letter){
-    socket.send("qn: "+qn+", ans: "+letter);
+    socket.send("qn: "+qn+", ans: "+letter+", id: "+ localStorage["id"]);
     document.getElementById("score").hidden = true;
     document.getElementById("nickname").hidden = true;
     document.getElementById("buttons").hidden = true;
