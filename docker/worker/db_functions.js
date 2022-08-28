@@ -33,7 +33,19 @@ async function update(id, score, time){
 }
 
 
+async function get(id) {
+
+  const { body } = await client.get({
+  index: 'game',
+  id: id
+})
+
+return body;
+}
+
+
 module.exports.create = create;
 module.exports.update = update;
+module.exports.get = get;
 
   
