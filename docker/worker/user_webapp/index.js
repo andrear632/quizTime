@@ -8,6 +8,7 @@ function openws(){
 
     socket.onopen = function(e) {
         nickname = document.getElementById("nick").value;
+        localStorage["nickname"] = nickname
         socket.send("nickname: " + nickname);
         socket.send("ping");
         document.getElementById("score").hidden = true;
@@ -25,6 +26,7 @@ function openws(){
         }
         else if (msg.startsWith("id: ")) {
             id = msg.substring(4, 10);
+            localStorage["id"] = id;
         }
         else if (msg.startsWith("qn: ")) {
             qn = msg.substring(4);
