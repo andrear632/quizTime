@@ -34,6 +34,7 @@ async function send(){
                 body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
             response.json().then((data) => {
+                timeo(10);
                 alert(data.msg)
             })
             
@@ -70,4 +71,13 @@ function setQN(){
         localStorage["lastQuestion"] = "1"
     }
     document.getElementById("question").value = localStorage["lastQuestion"]
+}
+
+function timeo(remaining){
+    if (remaining==-1) return;
+    document.getElementById("countdown").innerHTML = remaining
+    setTimeout(function() {
+        timeo(remaining-1)
+    }, 1000)
+
 }

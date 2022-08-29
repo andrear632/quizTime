@@ -29,7 +29,7 @@ services:
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200  
     depends_on:
-      - elasticsearch  
+      - elasticsearch
     networks:
       - elk
       - default
@@ -147,7 +147,7 @@ services:
       - kibana
     networks:
       - default
-    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node admin-server.js'"
+    command:  "./wait-for-it.sh -t 60 kibana:5601 -- bash -c  './initialize.sh && node admin-server.js'"
     restart: always
 
 volumes:

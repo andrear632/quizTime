@@ -8,7 +8,7 @@
     <title>QuizTime Admin</title>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
-<body onload="setQN()">
+<body onload="setQN();">
     <div class="container">
 
         <div class="row h-25 py-5">
@@ -45,9 +45,14 @@
                                 <label class="form-check-label" for="D">D</label>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-1">
                             <div class="">
                                 <input type="submit" value="Start" class="btn btn-success fs-4">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div id="countdown" class="h1">
+                                0
                             </div>
                         </div>
                         <div class="col-2">
