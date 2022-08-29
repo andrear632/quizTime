@@ -28,7 +28,7 @@
     </div>
 
 
-    <div class="container h-100 g-0" id="buttons">
+    <div class="container h-100 g-0" id="buttons" hidden>
         <div class="row h-50 pt-3 w-100 pb-1 mx-0">
             <button onclick="send('A')" class="container col-5 me-2 rounded h1" style="background: rgb(67, 67, 209);">
                 A
@@ -49,14 +49,16 @@
 
 
     <div id="loading" hidden>
-        <div class="container h-75 mt-5 d-flex align-items-center justify-content-center">
+        <div class="h-25"></div>
+        <div class="container h-25 d-flex align-items-center justify-content-center">
             <div class="spinner-border" style="width: 5rem; height: 5rem; color:rgba(51,51,255,0.8)"></div>
         </div>
+        <div class="text-center h1 mt-5" style="color: rgba(51,51,255,0.8)">Waiting for a question</div>
     </div>
 
 
 
-    <div class="container h-75 text-center" id="score">
+    <div class="container h-75 text-center" id="score" hidden>
         <div class="container h-50">
             <img class="h-100" src="./fireworks.gif">
         </div>

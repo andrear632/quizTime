@@ -5,8 +5,8 @@ var qn;
 var res;
 
 function init(){
-    if (localStorage.hasOwnProperty('id')){
-        document.getElementById("nick").value = localStorage['id']
+    if (localStorage.hasOwnProperty('nickname')){
+        document.getElementById("nick").value = localStorage['nickname']
     }
 }
 
@@ -14,10 +14,16 @@ function openws(){
     socket = new WebSocket("ws://localhost:8081/ws");
 
     socket.onopen = function(e) {
-        nickname = document.getElementById("nick").value;
-        localStorage["nickname"] = nickname
-        res = {'nickname':nickname}
-        socket.send(JSON.stringify(res));
+        if (localStorage.hasOwnProperty('id')){
+            res = {'exist': localStorage['id']}
+            socket.send(JSON.stringify(res))
+        }
+        else {
+            nickname = document.getElementById("nick").value;
+            localStorage["nickname"] = nickname
+            res = {'nickname':nickname}
+            socket.send(JSON.stringify(res));
+        }
         res = {'ping':true}
         socket.send(JSON.stringify(res));
         document.getElementById("score").hidden = true;
@@ -66,11 +72,12 @@ function openws(){
     
     socket.onclose = function(event) {
         if (event.wasClean) {
+            localStorage.removeItem('id');
             document.getElementById("buttons").hidden = true;
             document.getElementById("loading").hidden = true;
             document.getElementById("score").hidden = true;
             document.getElementById("nickname").hidden = false;
-            alert('Thanks for playing with us!')
+            alert('Thanks for playing with us!');
         } else {
             document.getElementById("buttons").hidden = true;
             document.getElementById("loading").hidden = true;
