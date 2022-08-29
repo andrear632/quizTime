@@ -30,9 +30,9 @@ async function update(id, score){
     })
 }
 
-async function update_cakeplot(id, letter){
+async function update_questions(id, letter){
   await client.update({
-      index: 'game',
+      index: 'questions',
       id: id,
       body: {
         script: {
