@@ -4,6 +4,7 @@ var id;
 var qn;
 var res;
 var start;
+var finish;
 
 function init(){
     if (localStorage.hasOwnProperty('nickname')){
@@ -102,7 +103,8 @@ function openws(){
 }
 
 function send(letter){
-    res = {'qn': qn, 'ans': letter, 'id': localStorage['id'], 'time':Date.now() - start}
+    finish = Date.now() - start
+    res = {'qn': qn, 'ans': letter, 'id': localStorage['id'], 'time': finish}
     socket.send(JSON.stringify(res));
     document.getElementById("score").hidden = true;
     document.getElementById("nickname").hidden = true;
