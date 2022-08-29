@@ -86,7 +86,7 @@ app.ws('/ws', (ws, req) => {
         }
 
         else{
-            //qui facciamo handling del crash
+            console.log(`wrong message received!`);
 
         }
     })
