@@ -22,6 +22,7 @@ async function send(){
             alert("Select question number")
         }
         else {
+            document.getElementById("question").value=(parseInt(questionnumber)+1).toString()
             var data = {'correct':correct, 'qn':questionnumber};
             var url = "http://localhost:3000/start";
             const response = await fetch(url, {

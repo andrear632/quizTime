@@ -66,6 +66,7 @@ function openws(){
         }
         else if (msg.hasOwnProperty('end')) {
             document.getElementById('rank').textContent = msg.end;
+            document.getElementById('cname').textContent = localStorage['nickname'];
             document.getElementById("nickname").hidden = true;
             document.getElementById("buttons").hidden = true;
             document.getElementById("loading").hidden = true;
@@ -79,10 +80,6 @@ function openws(){
     socket.onclose = function(event) {
         if (event.wasClean) {
             localStorage.removeItem('id');
-            document.getElementById("buttons").hidden = true;
-            document.getElementById("loading").hidden = true;
-            document.getElementById("score").hidden = true;
-            document.getElementById("nickname").hidden = false;
             alert('Thanks for playing with us!');
         } else {
             document.getElementById("buttons").hidden = true;
