@@ -8,6 +8,9 @@ app.use(cors())
 
 app.use(express.json());
 
+const { Client } = require('@elastic/elasticsearch')
+const client = new Client({ node: 'http://elasticsearch:9200' })
+
 // Constants
 const PORT = process.env.PORT;
 const HOST = '0.0.0.0';
@@ -17,6 +20,19 @@ const URLRABBIT = "amqp://rabbitmq"
 
 app.post('/start', (req, res) => {
     console.log('Question starting');
+
+    qn = req.body.qn
+
+    client.create({
+        index: 'questions',
+        id: qn,
+        body: {
+          A: 0,
+          B: 0,
+          C: 0,
+          D: 0
+        }
+    })
 
     amqp.connect(URLRABBIT, function(error0, connection) {
         if (error0) {
