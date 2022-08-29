@@ -24,13 +24,6 @@ enableWs(app)
 app.use(express.static('user_webapp'));
 
 
-// app.get('/', (req, res) => {
-//     console.log(`service: ${SERVICE_NAME} is called`);
-//     res.send(`Hello world,Your in ${SERVICE_NAME}\n`);
-    
-// });
-
-
 app.ws('/ws', (ws, req) => {
 
     var id
