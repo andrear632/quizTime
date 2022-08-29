@@ -23,6 +23,7 @@ async function send(){
         }
         else {
             document.getElementById("question").value=(parseInt(questionnumber)+1).toString()
+            localStorage["lastQuestion"] = document.getElementById("question").value
             var data = {'correct':correct, 'qn':questionnumber};
             var url = "http://localhost:3000/start";
             const response = await fetch(url, {
@@ -59,5 +60,14 @@ async function end(){
                 alert(data.msg)
             })
 
+            localStorage['lastQuestion'] = "1"
 
+}
+
+
+function setQN(){
+    if(!localStorage.hasOwnProperty("lastQuestion")){
+        localStorage["lastQuestion"] = "1"
+    }
+    document.getElementById("question").value = localStorage["lastQuestion"]
 }
