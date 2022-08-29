@@ -4,7 +4,6 @@ const enableWs = require('express-ws')
 const amqp = require('./message_broker_functions.js')
 const db = require('./db_functions.js')
 
-
 // Constants
 const SERVICE_NAME = process.env.SERVICE_NAME;
 const PORT = process.env.PORT;
@@ -13,6 +12,8 @@ const HOST = '0.0.0.0';
 
 const baseId = parseInt(SERVICE_NAME.charAt(SERVICE_NAME.length - 1))*100000;
 var lastId = baseId;
+
+var lastAnswer = ""
 
 // App
 const app = express();
@@ -41,14 +42,15 @@ app.ws('/ws', (ws, req) => {
 
         if (msg.ping) {
             setTimeout(function() {
-                ws.send(JSON.stringify("{'pong':true}"));
+                ws.send(JSON.stringify({'pong':true}));
             }, 20000)
         }
         else if (msg.hasOwnProperty("nickname")){  //nickname set
 
             nick = msg.nickname
-
+            console.log(lastId)
             lastId++;
+            console.log(lastId)
             db.create(lastId, nick);
 
             response = {
@@ -57,7 +59,7 @@ app.ws('/ws', (ws, req) => {
 
             ws.send(JSON.stringify(response))
         }
-        else if(msg.hasOwnProperty("qn")){
+        else if(msg.hasOwnProperty("qn") && msg.hasOwnProperty("ans") && msg.hasOwnProperty("id")){
 
             id = msg.id
             score = 0
@@ -66,13 +68,18 @@ app.ws('/ws', (ws, req) => {
             //in piu come gestiamo la domanda corretta
             db.update(id, score, time)
         }
-        else if(false){
+
+        else{
             //qui facciamo handling del crash
-        }
-        else {
-            db.update("10", 4, 9.7)
-            db.get("10")
-            ws.send(SERVICE_NAME)
+
+            if(lastAnswer != amqp.getLastAnswer()){
+                lastAnswer = amqp.getLastAnswer()
+            }
+
+            console.log("##########")
+            console.log(lastAnswer)
+            console.log("##########")
+            ws.send(lastAnswer)
         }
     })
 

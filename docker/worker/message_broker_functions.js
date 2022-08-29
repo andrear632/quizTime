@@ -1,4 +1,12 @@
 var amqp = require('amqplib/callback_api');
+const { get } = require('./db_functions');
+
+
+var lastAnswer = ""
+
+function getLastAnswer(){
+    return lastAnswer;
+}
 
 async function amqplisten() {
     amqp.connect('amqp://rabbitmq', function(error0, connection) {
@@ -31,6 +39,11 @@ async function amqplisten() {
                         //è in json con la struttura {correct:A, qn:1}, dove correct indica la
                         //risposta corretta e qn il question number.
                         //msg.content contiene il json ricevuto.
+                        lastAnswer = JSON.parse(msg.content)
+                        lastAnswer = lastAnswer["correct"]
+                        console.log("#######")
+                        console.log(lastAnswer)
+                        console.log("#######")
                         console.log(" [x] %s", msg.content.toString());
                     }
                 }, {
@@ -78,3 +91,4 @@ async function amqplisten() {
 }
 
 module.exports.amqplisten = amqplisten;
+module.exports.getLastAnswer = getLastAnswer;
