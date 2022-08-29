@@ -27,18 +27,20 @@ async function update(id, score){
             }
           }
         }
-      })
+    })
 }
 
 
 async function get(id) {
 
   const { body } = await client.get({
-  index: 'game',
-  id: id
-})
+    index: 'game',
+    id: id
+  })
 
-return body;
+  score = body._source.score
+  
+  return score;
 }
 
 

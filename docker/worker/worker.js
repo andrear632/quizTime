@@ -33,6 +33,8 @@ app.use(express.static('user_webapp'));
 
 app.ws('/ws', (ws, req) => {
 
+    var id
+
     ws.on('connection', msq =>{
         console.log("Connection Initialized");
         console.log(msg)
@@ -47,16 +49,20 @@ app.ws('/ws', (ws, req) => {
                 ws.send(JSON.stringify({'pong':true}));
             }, 20000)
         }
+        else if (msg.hasOwnProperty("exist")){
+            id=msg.exist
+        }
         else if (msg.hasOwnProperty("nickname")){  //nickname set
 
             nick = msg.nickname
             console.log(lastId)
             lastId++;
-            console.log(lastId)
-            db.create(lastId, nick);
+            id = lastId;
+            console.log(id)
+            db.create(id, nick);
 
             response = {
-                "id": lastId
+                "id": id
             }
 
             ws.send(JSON.stringify(response))
@@ -96,6 +102,14 @@ app.ws('/ws', (ws, req) => {
         questionNumber = msg["qn"]
         res = {'qn': questionNumber}
         ws.send(JSON.stringify(res))
+    })
+
+    amqp.eventemitter.on("end", async function(data){
+        score = await db.get(id)
+        console.log(score)
+        res = {'end': score}
+        ws.send(JSON.stringify(res))
+        ws.close()
     })
 
 
