@@ -59,27 +59,32 @@ app.ws('/ws', (ws, req) => {
 
             ws.send(JSON.stringify(response))
         }
-        else if(msg.hasOwnProperty("qn") && msg.hasOwnProperty("ans") && msg.hasOwnProperty("id")){
+        else if(msg.hasOwnProperty("qn") && msg.hasOwnProperty("ans") && msg.hasOwnProperty("id")&& msg.hasOwnProperty("time")){
 
             id = msg.id
             score = 0
-            time = 0
-            //dobbiamo decidere come calcolare il punteggio e tenere conto del tempo
-            //in piu come gestiamo la domanda corretta
-            db.update(id, score, time)
+            time = msg.time
+            lastAnswer = amqp.getLastAnswer()
+            if (ans == lastAnswer){
+                score = 100 - time/100
+            }
+            else{
+                score = 0
+            }
+            db.update(id, score)
         }
 
         else{
             //qui facciamo handling del crash
 
-            if(lastAnswer != amqp.getLastAnswer()){
-                lastAnswer = amqp.getLastAnswer()
-            }
+            // if(lastAnswer != amqp.getLastAnswer()){
+            //     lastAnswer = amqp.getLastAnswer()
+            // }
 
-            console.log("##########")
-            console.log(lastAnswer)
-            console.log("##########")
-            ws.send(lastAnswer)
+            // console.log("##########")
+            // console.log(lastAnswer)
+            // console.log("##########")
+            // ws.send(lastAnswer)
         }
     })
 
