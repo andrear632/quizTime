@@ -35,20 +35,6 @@ services:
       - default
     restart: always
 
-#  couchdb:
-#    image: couchdb
-#    container_name: nosql-database
-#    environment:
-#      - COUCHDB_USER=admin
-#      - COUCHDB_PASSWORD=admin
-#    ports:
-#      - 5984:5984
-#    volumes:
-#      - ./couchdb:/opt/couchdb/data
-#    networks:
-#      - default
-#    restart: always
-
   rabbitmq:
     image: rabbitmq:3-management
     container_name: message-broker
@@ -58,18 +44,6 @@ services:
     networks:
       - default
     restart: always
-
-#  php:
-#    build: ./configs/php
-#    container_name: php
-#    ports:
-#      - 9000:9000
-#    volumes:
-#      #manca il voluma da mappare con tutte le cose statiche va mappato su /usr/share/nginx/html
-#      - ./source/index.php:/usr/share/nginx/html/index.php
-#      - ./configs/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-#    restart: always
-
 
 # ##############################################################################
 # #WEB SERVER - NGINX
@@ -110,7 +84,7 @@ services:
 
 
 ##############################################################################
-#WORKER SERVERS -- ATTENZIONE ALLE DIPENDENZE IN package.json
+#WORKER SERVERS
 ##############################################################################
 
   worker_1:
@@ -121,7 +95,6 @@ services:
       - SERVICE_NAME=node1
       - WPORT=1337
     depends_on:
-#      - couchdb
       - rabbitmq
       - admin-server
     networks:
@@ -136,7 +109,6 @@ services:
       - PORT=3002
       - SERVICE_NAME=node2
     depends_on:
-#      - couchdb
       - rabbitmq
       - admin-server
     networks:
@@ -151,7 +123,6 @@ services:
       - PORT=3003
       - SERVICE_NAME=node3
     depends_on:
-#      - couchdb
       - rabbitmq
       - admin-server
     networks:
@@ -172,9 +143,7 @@ services:
     ports:
       - 3000:3000
     depends_on:
-#      - couchdb
       - rabbitmq
-#      - php
       - kibana
     networks:
       - default
