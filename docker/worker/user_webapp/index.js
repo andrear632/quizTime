@@ -3,6 +3,7 @@ var nickname;
 var id;
 var qn;
 var res;
+var start;
 
 function init(){
     if (localStorage.hasOwnProperty('nickname')){
@@ -51,12 +52,16 @@ function openws(){
             document.getElementById("score").hidden = true;
             document.getElementById("nickname").hidden = true;
             document.getElementById("buttons").hidden = false;
+
+            start = Date.now();
+
             setTimeout(function() {
                 document.getElementById("score").hidden = true;
                 document.getElementById("nickname").hidden = true;
                 document.getElementById("buttons").hidden = true;
                 document.getElementById("loading").hidden = false;
             }, 10000)
+
         }
         else if (msg.hasOwnProperty('end')) {
             document.getElementById('rank').textContent = msg.end;
@@ -97,7 +102,7 @@ function openws(){
 }
 
 function send(letter){
-    res = {'qn': qn, 'ans': letter, 'id': localStorage['id']}
+    res = {'qn': qn, 'ans': letter, 'id': localStorage['id'], 'time':Date.now() - start}
     socket.send(JSON.stringify(res));
     document.getElementById("score").hidden = true;
     document.getElementById("nickname").hidden = true;
