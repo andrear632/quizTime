@@ -37,7 +37,6 @@ app.post('/start', (req, res) => {
         });
         setTimeout(function() {
             connection.close();
-            process.exit(0);
         }, 500);
     });
 
@@ -67,7 +66,6 @@ app.post('/end', (req, res) => {
         });
         setTimeout(function() {
             connection.close();
-            process.exit(0);
         }, 500);
     });
 
