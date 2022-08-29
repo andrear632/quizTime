@@ -2,6 +2,13 @@ var socket;
 var nickname;
 var id;
 var qn;
+var res;
+
+function init(){
+    if (localStorage.hasOwnProperty('id')){
+        document.getElementById("nick").value = localStorage['id']
+    }
+}
 
 function openws(){
     socket = new WebSocket("ws://localhost:8081/ws");
@@ -9,8 +16,10 @@ function openws(){
     socket.onopen = function(e) {
         nickname = document.getElementById("nick").value;
         localStorage["nickname"] = nickname
-        socket.send("nickname: " + nickname);
-        socket.send("ping");
+        res = {'nickname':nickname}
+        socket.send(JSON.stringify(res));
+        res = {'ping':true}
+        socket.send(JSON.stringify(res));
         document.getElementById("score").hidden = true;
         document.getElementById("nickname").hidden = true;
         document.getElementById("buttons").hidden = true;
@@ -18,19 +27,20 @@ function openws(){
     };
     
     socket.onmessage = function(event) {
-        msg = event.data;
-        if (msg == "pong") {
+        msg = JSON.parse(event.data);
+        if (msg.hasOwnProperty('pong')) {
             setTimeout(function() {
-                socket.send("ping");
+                res = {'ping':true}
+                socket.send(JSON.stringify(res));
             }, 20000)
         }
-        else if (msg.startsWith("id: ")) {
-            id = msg.substring(4, 10);
+        else if (msg.hasOwnProperty('id')) {
+            id = msg.id;
             localStorage["id"] = id;
     
         }
-        else if (msg.startsWith("qn: ")) {
-            qn = msg.substring(4);
+        else if (msg.hasOwnProperty('qn')) {
+            qn = msg.qn;
             document.getElementById("loading").hidden = true;
             document.getElementById("score").hidden = true;
             document.getElementById("nickname").hidden = true;
@@ -42,8 +52,8 @@ function openws(){
                 document.getElementById("loading").hidden = false;
             }, 10000)
         }
-        else if (msg.startsWith("end: ")) {
-            document.getElementById('rank').textContent = msg.substring(5);
+        else if (msg.hasOwnProperty('end')) {
+            document.getElementById('rank').textContent = msg.end;
             document.getElementById("nickname").hidden = true;
             document.getElementById("buttons").hidden = true;
             document.getElementById("loading").hidden = true;
@@ -80,7 +90,8 @@ function openws(){
 }
 
 function send(letter){
-    socket.send("qn: "+qn+", ans: "+letter+", id: "+ localStorage["id"]);
+    res = {'qn': qn, 'ans': letter, 'id': localStorage['id']}
+    socket.send(JSON.stringify(res));
     document.getElementById("score").hidden = true;
     document.getElementById("nickname").hidden = true;
     document.getElementById("buttons").hidden = true;
