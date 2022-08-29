@@ -37,10 +37,7 @@ async function update_questions(id, letter){
       body: {
         script: {
           lang: "painless",
-          source: "ctx._source.score += params['newScore']",
-          params: {
-              newScore: score
-          }
+          source: "ctx._"+letter+".score ++"
         }
       }
   })
