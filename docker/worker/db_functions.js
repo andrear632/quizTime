@@ -61,6 +61,7 @@ async function get(id) {
 
 module.exports.create = create;
 module.exports.update = update;
+module.exports.update_questions = update_questions;
 module.exports.get = get;
 
   
