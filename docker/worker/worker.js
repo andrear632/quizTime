@@ -36,20 +36,32 @@ app.ws('/ws', (ws, req) => {
     })
 
     ws.on('message', msg => {
-        if (msg=="ping") {
+
+        msg = JSON.parse(msg)
+
+        if (msg.ping) {
             setTimeout(function() {
-                ws.send("pong");
+                ws.send(JSON.stringify("{'pong':true}"));
             }, 20000)
         }
-        else if (msg.startsWith("nickname: ")){  //nickname set
-            lastId++;
-            db.create(lastId, msg.substring(10, msg.lenght));
-            ws.send("id: " + lastId.toString())
-        }
-        else if(msg.startsWith("qn: ")){
+        else if (msg.hasOwnProperty("nickname")){  //nickname set
 
-            received = msg.split(",")
-            id = received[2].substring(4, 10)
+            nick = msg.nickname
+
+            lastId++;
+            db.create(lastId, nick);
+
+            response = {
+                "id": lastId
+            }
+
+            ws.send(JSON.stringify(response))
+        }
+        else if(msg.hasOwnProperty("qn")){
+
+            id = msg.id
+            score = 0
+            time = 0
             //dobbiamo decidere come calcolare il punteggio e tenere conto del tempo
             //in piu come gestiamo la domanda corretta
             db.update(id, score, time)
