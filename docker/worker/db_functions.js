@@ -30,6 +30,22 @@ async function update(id, score){
     })
 }
 
+async function update_cakeplot(id, letter){
+  await client.update({
+      index: 'game',
+      id: id,
+      body: {
+        script: {
+          lang: "painless",
+          source: "ctx._source.score += params['newScore']",
+          params: {
+              newScore: score
+          }
+        }
+      }
+  })
+}
+
 
 async function get(id) {
 
