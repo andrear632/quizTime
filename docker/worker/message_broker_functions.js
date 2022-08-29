@@ -1,11 +1,18 @@
 var amqp = require('amqplib/callback_api');
 const { get } = require('./db_functions');
 
+var events = require('events');
+var eventemitter = new events.EventEmitter();
 
 var lastAnswer = ""
+var questionNumber = ""
 
 function getLastAnswer(){
     return lastAnswer;
+}
+
+function getQuestionNumber(){
+    return questionNumber;
 }
 
 async function amqplisten() {
@@ -34,6 +41,7 @@ async function amqplisten() {
 
                 channel.consume(q.queue, function(msg) {
                     if (msg.content) {
+                        eventemitter.emit("start", msg.content)
                         //qui va la gestione del messaggio che segna l'inizio di una domanda,
                         //viene ricevuto dall'admin server.
                         //è in json con la struttura {correct:A, qn:1}, dove correct indica la
@@ -41,6 +49,8 @@ async function amqplisten() {
                         //msg.content contiene il json ricevuto.
                         lastAnswer = JSON.parse(msg.content)
                         lastAnswer = lastAnswer["correct"]
+                        questionNumber = JSON.parse(msg.content)
+                        questionNumber = questionNumber["qn"]
                         console.log("#######")
                         console.log(lastAnswer)
                         console.log("#######")
@@ -73,11 +83,7 @@ async function amqplisten() {
 
                 channel.consume(q.queue, function(msg) {
                     if (msg.content) {
-                        //qui va la gestione del messaggio che segna l'inizio di una domanda,
-                        //viene ricevuto dall'admin server.
-                        //è in json con la struttura {correct:A, qn:1}, dove correct indica la
-                        //risposta corretta e qn il question number.
-                        //msg.content contiene il json ricevuto.
+                        
                         console.log(" [x] %s", msg.content.toString());
                     }
                 }, {
@@ -92,3 +98,5 @@ async function amqplisten() {
 
 module.exports.amqplisten = amqplisten;
 module.exports.getLastAnswer = getLastAnswer;
+module.exports.getQuestionNumber = getQuestionNumber;
+module.exports.eventemitter = eventemitter;

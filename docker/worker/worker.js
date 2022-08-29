@@ -14,6 +14,8 @@ const baseId = parseInt(SERVICE_NAME.charAt(SERVICE_NAME.length - 1))*100000;
 var lastId = baseId;
 
 var lastAnswer = ""
+var res
+
 
 // App
 const app = express();
@@ -59,39 +61,48 @@ app.ws('/ws', (ws, req) => {
 
             ws.send(JSON.stringify(response))
         }
+
         else if(msg.hasOwnProperty("qn") && msg.hasOwnProperty("ans") && msg.hasOwnProperty("id")&& msg.hasOwnProperty("time")){
 
-            id = msg.id
-            score = 0
-            time = msg.time
-            lastAnswer = amqp.getLastAnswer()
-            if (ans == lastAnswer){
-                score = 100 - time/100
-            }
-            else{
+            if (msg.qn == questionNumber){
+                id = msg.id
                 score = 0
+                time = msg.time
+                if (msg.ans == lastAnswer){
+                    score = 100 - time/100
+                }
+                else{
+                    score = 0
+                }
+                db.update(id, score)
             }
-            db.update(id, score)
+            
         }
 
         else{
             //qui facciamo handling del crash
 
-            // if(lastAnswer != amqp.getLastAnswer()){
-            //     lastAnswer = amqp.getLastAnswer()
-            // }
-
-            // console.log("##########")
-            // console.log(lastAnswer)
-            // console.log("##########")
-            // ws.send(lastAnswer)
         }
     })
 
     ws.on('close', () => {
         console.log('WebSocket was closed')
     })
+
+
+    amqp.eventemitter.on("start", function(data){
+        msg = JSON.parse(data);
+        lastAnswer = msg["correct"]
+        questionNumber = msg["qn"]
+        res = {'qn': questionNumber}
+        ws.send(JSON.stringify(res))
+    })
+
+
 })
+
+
+
 
 
 amqp.amqplisten();
