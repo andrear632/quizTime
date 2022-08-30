@@ -10,7 +10,7 @@ function init(){
     if (localStorage.hasOwnProperty('nickname')){
         document.getElementById("nick").value = localStorage['nickname']
     }
-    if(localStorage.hasOwnProperty('time') && (Date.now() - parseInt(localStorage["time"]) >= 120000)){
+    if(localStorage.hasOwnProperty('time') && (Date.now() - parseInt(localStorage["time"]) >= 7200000)){
         localStorage.removeItem("id");
         localStorage["time"] = Date.now();
     }

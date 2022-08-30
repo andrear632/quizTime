@@ -2,6 +2,9 @@ var questionnumber
 
 async function send(){
 
+    document.getElementById("btn1").disabled = true;
+    document.getElementById("btn2").disabled = true;
+
     var radios = document.getElementsByName("answer");
     var correct = null;
 
@@ -75,9 +78,13 @@ function setQN(){
 }
 
 function timeo(remaining){
-    if (remaining==-1) {
+    if (remaining==0) {
         document.getElementById("question").value=(parseInt(questionnumber)+1).toString()
         localStorage["lastQuestion"] = document.getElementById("question").value
+        document.getElementById("btn1").disabled = false;
+        document.getElementById("btn2").disabled = false;
+    }
+    if (remaining==-1) {
         return
     }
     document.getElementById("countdown").innerHTML = remaining
