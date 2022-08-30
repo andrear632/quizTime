@@ -85,6 +85,8 @@ app.post('/end', (req, res) => {
         }, 500);
     });
 
+    
+
     res.send({'msg':'Game ended'});
 });
 
