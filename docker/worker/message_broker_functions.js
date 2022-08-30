@@ -4,16 +4,6 @@ const { get } = require('./db_functions');
 var events = require('events');
 var eventemitter = new events.EventEmitter();
 
-var lastAnswer = ""
-var questionNumber = ""
-
-function getLastAnswer(){
-    return lastAnswer;
-}
-
-function getQuestionNumber(){
-    return questionNumber;
-}
 
 async function amqplisten() {
     amqp.connect('amqp://rabbitmq', function(error0, connection) {
@@ -85,6 +75,4 @@ async function amqplisten() {
 }
 
 module.exports.amqplisten = amqplisten;
-module.exports.getLastAnswer = getLastAnswer;
-module.exports.getQuestionNumber = getQuestionNumber;
 module.exports.eventemitter = eventemitter;

@@ -74,7 +74,7 @@ app.ws('/ws', (ws, req) => {
                     score = 0
                 }
                 db.update(id, score)
-                db.update_questions(questionNumber,lastAnswer)
+                db.update_questions(questionNumber,msg.ans)
             }
             
         }

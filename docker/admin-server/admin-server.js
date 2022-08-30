@@ -84,9 +84,39 @@ app.post('/end', (req, res) => {
             connection.close();
         }, 500);
     });
-    
+
     client.indices.delete({ index: 'questions' })
-    client.indices.create({ index: 'questions' })
+    client.indices.delete({ index: 'game' })
+
+
+    setTimeout(function(){
+        client.indices.create({ index: 'questions' })
+        client.indices.create({ index: 'game' })
+        setTimeout(function(){
+            client.create({
+                index: 'game',
+                id: '0',
+                body: {
+                nickname: 'admin',
+                score: 0
+                }
+            })
+            client.create({
+                index: 'questions',
+                id: '0',
+                body: {
+                  A: 0,
+                  B: 0,
+                  C: 0,
+                  D: 0
+                }
+            })
+        }, 1000)
+    }, 1000)
+    
+
+    
+    
 
     res.send({'msg':'Game ended'});
 });

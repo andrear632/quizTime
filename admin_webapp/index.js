@@ -1,3 +1,5 @@
+var questionnumber
+
 async function send(){
 
     var radios = document.getElementsByName("answer");
@@ -16,7 +18,7 @@ async function send(){
     else {
 
         var qn = document.getElementById("question");
-        var questionnumber = qn.value;
+        questionnumber = qn.value;
 
         if (questionnumber=="") {
             alert("Select question number")
@@ -60,6 +62,7 @@ async function end(){
             })
 
             localStorage['lastQuestion'] = "1"
+            document.getElementById("question").value=1
 
 }
 
