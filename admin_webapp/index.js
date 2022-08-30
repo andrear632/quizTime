@@ -35,7 +35,7 @@ async function send(){
             });
             response.json().then((data) => {
                 timeo(10);
-                alert(data.msg)
+                console.log(data.msg)
             })
             
         }
