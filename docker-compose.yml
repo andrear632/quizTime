@@ -99,7 +99,7 @@ services:
       - admin-server
     networks:
       - default
-    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node worker.js'"
+    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
     restart: always
      
   worker_2:
@@ -113,7 +113,7 @@ services:
       - admin-server
     networks:
       - default
-    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node worker.js'"
+    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
     restart: always
   
   worker_3:
@@ -127,7 +127,7 @@ services:
       - admin-server
     networks:
       - default
-    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  './initialize.sh && node worker.js'"
+    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
     restart: always
 
 ##############################################################################
