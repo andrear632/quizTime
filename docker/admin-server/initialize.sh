@@ -19,7 +19,7 @@ curl -X PUT -H "Content-Type:application/json" -d '{"A":0, "B":0, "C":0, "D":0}'
 
 printf "\nCreated Default Entries\n"
 
-#waiting for kibana to properly startuo
+#waiting for kibana to properly startup
 sleep 90
 
 printf "\nEnd Sleep\n"

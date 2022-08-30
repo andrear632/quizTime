@@ -56,18 +56,11 @@ async function get(id) {
   return score;
 }
 
-async function deleteIndex(index){
-  await client.indices.delete({
-    index: index
-  })
-}
-
 
 
 module.exports.create = create;
 module.exports.update = update;
 module.exports.update_questions = update_questions;
 module.exports.get = get;
-module.exports.deleteIndex = deleteIndex;
 
   

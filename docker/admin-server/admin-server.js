@@ -84,8 +84,9 @@ app.post('/end', (req, res) => {
             connection.close();
         }, 500);
     });
-
     
+    client.indices.delete({ index: 'questions' })
+    client.indices.create({ index: 'questions' })
 
     res.send({'msg':'Game ended'});
 });

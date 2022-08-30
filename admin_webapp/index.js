@@ -22,8 +22,6 @@ async function send(){
             alert("Select question number")
         }
         else {
-            document.getElementById("question").value=(parseInt(questionnumber)+1).toString()
-            localStorage["lastQuestion"] = document.getElementById("question").value
             var data = {'correct':correct, 'qn':questionnumber};
             var url = "http://localhost:3000/start";
             const response = await fetch(url, {
@@ -74,7 +72,11 @@ function setQN(){
 }
 
 function timeo(remaining){
-    if (remaining==-1) return;
+    if (remaining==-1) {
+        document.getElementById("question").value=(parseInt(questionnumber)+1).toString()
+        localStorage["lastQuestion"] = document.getElementById("question").value
+        return
+    }
     document.getElementById("countdown").innerHTML = remaining
     setTimeout(function() {
         timeo(remaining-1)
