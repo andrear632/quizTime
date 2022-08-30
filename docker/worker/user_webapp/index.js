@@ -10,6 +10,13 @@ function init(){
     if (localStorage.hasOwnProperty('nickname')){
         document.getElementById("nick").value = localStorage['nickname']
     }
+    if(localStorage.hasOwnProperty('time') && (Date.now() - parseInt(localStorage["time"]) >= 120000)){
+        localStorage.removeItem("id");
+        localStorage["time"] = Date.now();
+    }
+    else if(!localStorage.hasOwnProperty("time")){
+        localStorage["time"] = Date.now();
+    }  
 }
 
 function openws(){
@@ -80,7 +87,7 @@ function openws(){
     socket.onclose = function(event) {
         if (event.wasClean) {
             localStorage.removeItem('id');
-            alert('Thanks for playing with us!');
+            //alert('Thanks for playing with us!');
         } else {
             document.getElementById("buttons").hidden = true;
             document.getElementById("loading").hidden = true;
