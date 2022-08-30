@@ -23,11 +23,12 @@ function openws(){
     socket = new WebSocket("ws://localhost:8081/ws");
 
     socket.onopen = function(e) {
-        if (localStorage.hasOwnProperty('id')){
+        if (localStorage.hasOwnProperty('id') && localStorage["nickname"]==document.getElementById("nick").value){
             res = {'exist': localStorage['id']}
             socket.send(JSON.stringify(res))
         }
         else {
+            localStorage.removeItem("id");
             nickname = document.getElementById("nick").value;
             localStorage["nickname"] = nickname
             res = {'nickname':nickname}
