@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.0'
 services:
 
 ##############################################################################
@@ -7,7 +7,6 @@ services:
 
   elasticsearch:
     image: elasticsearch:7.16.2
-    container_name: elasticsearch  
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       discovery.type: single-node    
@@ -16,34 +15,21 @@ services:
       - '9300:9300'
     volumes:
       - elastic_data:/usr/share/elasticsearch/data/
-    networks:
-      - elk
-      - default
-    restart: always
 
   kibana:
     image: kibana:7.16.2
-    container_name: kibana      
     ports:
       - '5601:5601'
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200  
     depends_on:
       - elasticsearch
-    networks:
-      - elk
-      - default
-    restart: always
 
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: message-broker
     ports:
       - 5672:5672
       - 15672:15672 #admin web interface
-    networks:
-      - default
-    restart: always
 
 # ##############################################################################
 # #WEB SERVER - NGINX
@@ -51,9 +37,7 @@ services:
 
   web_server_1:
     image: nginx:1.13.8
-    container_name: admin-web_server
     ports:
-      - 8080:80
       - 443:443
     volumes:
       - ./admin_webapp:/usr/share/nginx/html/
@@ -61,25 +45,18 @@ services:
       - ./configs/nginx-admin/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - admin-server
-    networks:
-      - default
-    restart: always
       
   
   web_server_2:
     image: nginx:1.13.8
-    container_name: user-web_server
     ports: 
-      - 8081:80
+      - 80:80
     volumes:
       - ./configs/nginx-worker/default.conf:/etc/nginx/nginx.conf
     depends_on: 
       - worker_1
       - worker_2
       - worker_3
-    networks:
-      - default
-    restart: always
     
 
 
@@ -90,7 +67,6 @@ services:
   worker_1:
     #build: ./docker/worker
     image: andrear632/worker
-    container_name: worker_1
     environment:
       - PORT=3001
       - SERVICE_NAME=node1
@@ -98,40 +74,29 @@ services:
     depends_on:
       - rabbitmq
       - admin-server
-    networks:
-      - default
     command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
-    restart: always
      
   worker_2:
     #build: ./docker/worker
     image: andrear632/worker
-    container_name: worker_2
     environment:
       - PORT=3002
       - SERVICE_NAME=node2
     depends_on:
       - rabbitmq
       - admin-server
-    networks:
-      - default
     command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
-    restart: always
   
   worker_3:
     #build: ./docker/worker
     image: andrear632/worker
-    container_name: worker_3
     environment:
       - PORT=3003
       - SERVICE_NAME=node3
     depends_on:
       - rabbitmq
       - admin-server
-    networks:
-      - default
     command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
-    restart: always
 
 ##############################################################################
 #ADMIN SERVER
@@ -140,7 +105,6 @@ services:
   admin-server:
     #build: ./docker/admin-server
     image: andrear632/adminserver
-    container_name: admin-server
     environment:
       - PORT=3000
       - NODE_ENV=production
@@ -149,10 +113,7 @@ services:
     depends_on:
       - rabbitmq
       - kibana
-    networks:
-      - default
     command:  "./wait-for-it.sh -t 60 elasticsearch:9200 -- bash -c  './initialize.sh && node admin-server.js'"
-    restart: always
 
 volumes:
   elastic_data: {}
