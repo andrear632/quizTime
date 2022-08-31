@@ -20,7 +20,7 @@ function init(){
 }
 
 function openws(){
-    socket = new WebSocket("ws://localhost:8081/ws");
+    socket = new WebSocket("ws://aws.quiztime.tk:80/ws");
 
     socket.onopen = function(e) {
         if (localStorage.hasOwnProperty('id') && localStorage["nickname"]==document.getElementById("nick").value){
