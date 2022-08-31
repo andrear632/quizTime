@@ -34,7 +34,8 @@ services:
 # ##############################################################################
 
   web_server_1:
-    image: nginx:1.13.8
+    #image: nginx:1.13.8
+    build: ./docker/webserver-admin
     ports:
       - 443:443
     depends_on:
@@ -42,7 +43,8 @@ services:
       
   
   web_server_2:
-    image: nginx:1.13.8
+    #image: nginx:1.13.8
+    build: ./docker/webserver-worker
     ports: 
       - 80:80
     depends_on: 
