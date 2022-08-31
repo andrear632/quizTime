@@ -17,5 +17,7 @@ Technologies we plan to use:
 - Admin server in NodeJS
 
 
-
+<!--
 <img src="newschema.png" width="800"> 
+-->
+<img src="https://drive.google.com/file/d/1F6Gt38LjMWu5dS4F0HRSNV2ShNFkqkv2/view?usp=sharing">
