@@ -18,4 +18,4 @@ Technologies we plan to use:
 
 
 
-<img src="schema.png" width="800"> 
+<img src="newschema.png" width="800"> 
