@@ -13,8 +13,6 @@ services:
     ports:
       - '9200:9200'
       - '9300:9300'
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data/
 
   kibana:
     image: kibana:7.16.2
@@ -39,10 +37,6 @@ services:
     image: nginx:1.13.8
     ports:
       - 443:443
-    volumes:
-      - ./admin_webapp:/usr/share/nginx/html/
-      - ./configs/nginx-admin/openssl:/cert
-      - ./configs/nginx-admin/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - admin-server
       
@@ -51,8 +45,6 @@ services:
     image: nginx:1.13.8
     ports: 
       - 80:80
-    volumes:
-      - ./configs/nginx-worker/default.conf:/etc/nginx/nginx.conf
     depends_on: 
       - worker_1
       - worker_2
