@@ -1,6 +1,11 @@
 #!/bin/bash
 #This file is used to initialize some elements at statup
 
+#waiting for kibana to properly startup
+sleep ${SLEEP_TIME}
+
+printf "\nEnd Sleep\n"
+
 #purge old data
 curl -X DELETE 'elasticsearch:9200/game'
 curl -X DELETE 'elasticsearch:9200/questions'
@@ -19,10 +24,6 @@ curl -X PUT -H "Content-Type:application/json" -d '{"A":0, "B":0, "C":0, "D":0}'
 
 printf "\nCreated Default Entries\n"
 
-#waiting for kibana to properly startup
-sleep ${SLEEP_TIME}
-
-printf "\nEnd Sleep\n"
 
 #import dashboards in kibana
 curl -X POST -H "kbn-xsrf: reporting" -H "Content-Type:application/json" -d "@kibana_dashboard_1.json" "kibana:5601/api/kibana/dashboards/import"

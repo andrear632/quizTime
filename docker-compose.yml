@@ -39,7 +39,7 @@ services:
     #build: ./docker/webserver-admin
     image: alessandromarzilli/adminwebserver
     ports:
-      - 443:443
+      - 8080:8080
     depends_on:
       - admin-server
       
