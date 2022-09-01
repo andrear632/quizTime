@@ -14,6 +14,8 @@ services:
     ports:
       - '9200:9200'
       - '9300:9300'
+    depends_on:
+      - worker_3
 
   kibana:
     image: kibana:7.16.2
@@ -29,28 +31,26 @@ services:
     ports:
       - 5672:5672
       - 15672:15672 #admin web interface
+    depends_on:
+      - kibana
 
 # ##############################################################################
 # #WEB SERVER - NGINX
 # ##############################################################################
 
   web_server_1:
-    build: ./docker/webserver-admin
-    #image: andrear632/adminwebserver
+    image: andrear632/adminwebserver
     ports:
       - 443:443
     depends_on:
-      - admin-server
+      - web_server_2
       
   
   web_server_2:
-    build: ./docker/webserver-worker
-    #image: andrear632/userwebserver
+    image: andrear632/userwebserver
     ports: 
       - 80:80
-    depends_on: 
-      - worker_1
-      - worker_2
+    depends_on:
       - worker_3
     
 
@@ -60,53 +60,47 @@ services:
 ##############################################################################
 
   worker_1:
-    build: ./docker/worker
-    #image: andrear632/worker
+    #build: ./docker/worker
+    image: andrear632/worker
     environment:
       - PORT=3001
       - SERVICE_NAME=node1
       - WPORT=1337
     depends_on:
-      - rabbitmq
       - admin-server
-    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
+    command:  "node worker.js"
      
   worker_2:
-    build: ./docker/worker
-    #image: andrear632/worker
+    #build: ./docker/worker
+    image: andrear632/worker
     environment:
       - PORT=3002
       - SERVICE_NAME=node2
     depends_on:
-      - rabbitmq
-      - admin-server
-    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
+      - worker_1
+    command:  "node worker.js"
   
   worker_3:
-    build: ./docker/worker
-    #image: andrear632/worker
+    #build: ./docker/worker
+    image: andrear632/worker
     environment:
       - PORT=3003
       - SERVICE_NAME=node3
     depends_on:
-      - rabbitmq
-      - admin-server
-    command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
+      - worker_2
+    command:  "node worker.js"
 
 ##############################################################################
 #ADMIN SERVER
 ##############################################################################
 
   admin-server:
-    build: ./docker/admin-server
-    #image: andrear632/adminserver
+    #build: ./docker/admin-server
+    image: andrear632/adminserver
     environment:
       - PORT=3000
       - NODE_ENV=production
       - SLEEP_TIME=60
     ports:
       - 3000:3000
-    depends_on:
-      - rabbitmq
-      - kibana
-    command:  "./wait-for-it.sh -t 60 elasticsearch:9200 -- bash -c  './initialize.sh && node admin-server.js'"
+    command:  "./initialize.sh && node admin-server.js"
