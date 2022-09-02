@@ -2,15 +2,19 @@ const { Client } = require('@elastic/elasticsearch')
 const client = new Client({ node: 'http://elasticsearch:9200' })
 
 async function create(id, nick) {
-
-    await client.create({
-      index: 'game',
-      id: id,
-      body: {
-        nickname: nick,
-        score: 0
-      }
-    })
+    try {
+      await client.create({
+        index: 'game',
+        id: id,
+        body: {
+          nickname: nick,
+          score: 0
+        }
+      })
+    }
+    catch (error) {
+      console.log("error")
+    }
   
 }
 
