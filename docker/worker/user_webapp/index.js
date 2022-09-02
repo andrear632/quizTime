@@ -16,7 +16,7 @@ function init(){
     }
     else if(!localStorage.hasOwnProperty("time")){
         localStorage["time"] = Date.now();
-    }  
+    }
 }
 
 function openws(){
