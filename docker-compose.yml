@@ -39,7 +39,6 @@ services:
     #build: ./docker/webserver-admin
     image: alessandromarzilli/adminwebserver
     ports:
-      - 591:591
       - 443:443
     depends_on:
       - admin-server
