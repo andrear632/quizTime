@@ -44,22 +44,6 @@ app.ws('/ws', (ws, req) => {
         }
         else if (msg.hasOwnProperty("exist")){
             id=msg.exist
-            try {
-                db.get(id)
-                console.log("user exists");
-            } catch (error) {
-                nick = msg.nick
-                lastId++;
-                id = lastId;
-                console.log(id)
-                db.create(id, nick);
-                
-                response = {
-                    "id": id
-                }
-    
-                ws.send(JSON.stringify(response))
-            }
         }
         else if (msg.hasOwnProperty("nickname")){  //nickname set
 
