@@ -51,15 +51,20 @@ async function update_questions(id, letter){
 
 
 async function get(id) {
+  try{
+    const { body } = await client.get({
+      index: 'game',
+      id: id
+    })
 
-  const { body } = await client.get({
-    index: 'game',
-    id: id
-  })
-
-  score = body._source.score
+    score = body._source.score
+    
+    return score;
+  }
+  catch {
+    console.log("errore nella chiamata get al db")
+  }
   
-  return score;
 }
 
 
