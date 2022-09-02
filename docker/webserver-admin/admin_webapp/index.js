@@ -28,7 +28,7 @@ async function send(){
         }
         else {
             var data = {'correct':correct, 'qn':questionnumber};
-            var url = "http://quiztimeloadb-b0fa170e24992227.elb.us-east-1.amazonaws.com:3000/start";
+            var url = "https://quiztimeloadb-b0fa170e24992227.elb.us-east-1.amazonaws.com:443/start";
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -52,7 +52,7 @@ async function send(){
 async function end(){
 
             var data = {'game':'end'};
-            var url = "http://quiztimeloadb-b0fa170e24992227.elb.us-east-1.amazonaws.com:3000/end";
+            var url = "https://quiztimeloadb-b0fa170e24992227.elb.us-east-1.amazonaws.com:443/end";
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
