@@ -121,6 +121,10 @@ app.ws('/ws', (ws, req) => {
             res = {'end': score}
             ws.send(JSON.stringify(res))
             ws.close()
+            setTimeout(function () {
+                amqp.eventemitter.removeAllListeners("end");
+                amqp.eventemitter.removeAllListeners("start")
+            }, 2000)
         }
         catch{
             console.log("errore")
