@@ -31,7 +31,7 @@ async function update(id, score){
             }
           }
         },
-        retry_on_conflict: 10
+        retry_on_conflict: 1000
     })
 }
 
@@ -45,7 +45,7 @@ async function update_questions(id, letter){
           source: "ctx._source."+letter+" ++"
         }
       },
-      retry_on_conflict: 10
+      retry_on_conflict: 1000
   })
 }
 
