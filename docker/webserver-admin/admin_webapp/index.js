@@ -84,13 +84,11 @@ function setQN(){
 }
 
 function timeo(remaining){
-    if (remaining==0) {
+    if (remaining==-1) {
         document.getElementById("question").value=(parseInt(questionnumber)+1).toString()
         localStorage["lastQuestion"] = document.getElementById("question").value
         document.getElementById("btn1").disabled = false;
         document.getElementById("btn2").disabled = false;
-    }
-    if (remaining==-1) {
         return
     }
     document.getElementById("countdown").innerHTML = remaining

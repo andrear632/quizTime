@@ -114,13 +114,11 @@ app.post('/end', (req, res) => {
                 })
             }, 1000)
         }, 1000)
+
+        res.send({'msg':'Game ended'});
+        
     }, 10000)
     
-
-    
-    
-
-    res.send({'msg':'Game ended'});
 });
 
 
