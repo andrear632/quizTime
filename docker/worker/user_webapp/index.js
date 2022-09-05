@@ -82,7 +82,8 @@ function openws(){
             document.getElementById("score").hidden = false;
         }
         else {
-            alert("Unknown message received");
+            console.log("Unknown message received");
+            console.log(msg)
         }
     };
     
@@ -95,7 +96,8 @@ function openws(){
             document.getElementById("loading").hidden = true;
             document.getElementById("score").hidden = true;
             document.getElementById("nickname").hidden = false;
-            alert('Unexpected error');
+             console.log('Unexpected error');
+             console.log(event);
         }
     };
     
@@ -104,7 +106,8 @@ function openws(){
         document.getElementById("loading").hidden = true;
         document.getElementById("score").hidden = true;
         document.getElementById("nickname").hidden = false;
-        alert('Unexpected error');
+        console.log('Unexpected error');
+        console.log(error);
     };
 }
 

@@ -62,7 +62,7 @@ async function get(id) {
     return score;
   }
   catch {
-    console.log("errore nella chiamata get al db")
+    console.log("errore nella chiamata get al db: "+id);
   }
   
 }

@@ -60,12 +60,18 @@ async function end(){
                 },
                 body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-            response.json().then((data) => {
-                alert(data.msg)
-            })
 
             localStorage['lastQuestion'] = "1"
             document.getElementById("question").value=1
+            document.getElementById("btn1").disabled = true;
+            document.getElementById("btn2").disabled = true;
+
+            response.json().then((data) => {
+                alert(data.msg)
+                document.getElementById("btn1").disabled = false;
+                document.getElementById("btn2").disabled = false;
+            })
+
 
 }
 
