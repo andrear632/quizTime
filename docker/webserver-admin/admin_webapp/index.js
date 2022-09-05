@@ -51,6 +51,11 @@ async function send(){
 
 async function end(){
 
+            localStorage['lastQuestion'] = "1"
+            document.getElementById("question").value=1
+            document.getElementById("btn1").disabled = true;
+            document.getElementById("btn2").disabled = true;
+
             var data = {'game':'end'};
             var url = "https://quizload-af9d17368b7ae969.elb.us-east-1.amazonaws.com:443/end";
             const response = await fetch(url, {
@@ -61,10 +66,7 @@ async function end(){
                 body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
 
-            localStorage['lastQuestion'] = "1"
-            document.getElementById("question").value=1
-            document.getElementById("btn1").disabled = true;
-            document.getElementById("btn2").disabled = true;
+            
 
             response.json().then((data) => {
                 alert(data.msg)
