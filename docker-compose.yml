@@ -47,7 +47,7 @@ services:
 # ##############################################################################
 
   web_server_1:
-    image: alessandromarzilli/adminwebserver
+    image: alessandromarzilli/adminwebserver:aws
     ports:
       - 443:443
     depends_on:
@@ -70,7 +70,7 @@ services:
 ##############################################################################
 
   worker_1:
-    image: alessandromarzilli/worker
+    image: alessandromarzilli/worker:aws
     environment:
       - PORT=3001
       - SERVICE_NAME=node1
@@ -81,7 +81,7 @@ services:
     command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
      
   worker_2:
-    image: alessandromarzilli/worker
+    image: alessandromarzilli/worker:aws
     environment:
       - PORT=3002
       - SERVICE_NAME=node2
@@ -91,7 +91,7 @@ services:
     command:  "./wait-for-it.sh -t 60 rabbitmq:5672 -- bash -c  'node worker.js'"
   
   worker_3:
-    image: alessandromarzilli/worker
+    image: alessandromarzilli/worker:aws
     environment:
       - PORT=3003
       - SERVICE_NAME=node3
