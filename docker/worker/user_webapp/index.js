@@ -20,7 +20,7 @@ function init(){
 }
 
 function openws(){
-    socket = new WebSocket("ws://quizload-af9d17368b7ae969.elb.us-east-1.amazonaws.com:80/ws");
+    socket = new WebSocket("ws://aws.quiztime.tk:80/ws");
 
     socket.onopen = function(e) {
         if (localStorage.hasOwnProperty('id') && localStorage["nickname"]==document.getElementById("nick").value){
