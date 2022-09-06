@@ -7,7 +7,7 @@ Having a lot of participants, the server managing users’ answers should be dis
 
 The admin will have an interface to set the correct answers of the questions. For each round he will trigger messages to notify the start of a question to the web applications and to the server accepting the responses. There will be a time out for the question, so the workers stop accepting data and send the scores of every player to Elasticsearch.
 Using Kibana we’ll generate statistical graphs and the scoreboard to be displayed in the admin interface and in the show for the audience.
-Every player will receive his rank and the top 10 will be displayed in the show for the audience.
+Every player will receive his score and the top 10 will be displayed in the show for the audience.
 
 Technologies we plan to use:
 - Docker to containerize each service
@@ -15,6 +15,7 @@ Technologies we plan to use:
 - Workers in NodeJS
 - Elastic search and Kibana
 - Admin server in NodeJS
+- HTML, JS and Bootstrap to create the web interfaces
 
 
 <!--
